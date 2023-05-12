@@ -7,7 +7,7 @@ export const ContainerButton = styled(BtnAntd).attrs({
 })`
 
   display: flex;
-  width: 100%;
+  width: 230px;
   justify-content: center;
   align-items: center;
   text-decoration: none;
