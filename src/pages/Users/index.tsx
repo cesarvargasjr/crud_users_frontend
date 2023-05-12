@@ -1,10 +1,9 @@
-import { Menu } from "../../components/Menu";
 import * as S from "./styles";
 
-export const Home = () => {
+export const Users = () => {
   return (
     <S.ContainerPage>
-      <Menu />
+      <h1>PAGE USERS</h1>
     </S.ContainerPage>
   );
 };
