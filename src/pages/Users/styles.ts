@@ -6,5 +6,19 @@ export const ContainerPage = styled.div`
   min-height: 100vh;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   background-color: ${colors.greyLight};
+`;
+
+export const ContainerHeader = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const Title = styled.div`
+  font-size: 21px;
+  font-weight: 700;
+  color: ${colors.blue};
 `;

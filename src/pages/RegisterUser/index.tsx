@@ -1,36 +1,43 @@
 import { Button } from "../../components/Button";
 import { InputDefault } from "../../components/Input";
-import { Form } from "antd";
+import { Form, Button as BtnAntd } from "antd";
 import { useState } from "react";
 import { registerUser } from "../../services/users";
 import { toast } from "react-toastify";
+import MaskedInput from "antd-mask-input";
 import * as S from "./styles";
 
 export const RegisterUser = () => {
   const [name, setName] = useState<string>("");
-  const [phone, setPhone] = useState<any>();
+  const [phone, setPhone] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [neighborhood, setNeighborhood] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [number, setNumber] = useState<any>();
-  const [cep, setCep] = useState<any>();
+  const [cep, setCep] = useState<string>("");
 
   const handleSubmit = async () => {
-    try {
-      await registerUser({
-        name: name,
-        phone: phone,
-        address: address,
-        neighborhood: neighborhood,
-        city: neighborhood,
-        number: number,
-        cep: cep,
-      });
-      toast.success("Aluno cadastrado com sucesso");
-    } catch (error) {
-      console.log(error);
-      toast.error("Erro ao cadastrar aluno");
+    if (name !== "") {
+      try {
+        await registerUser({
+          name: name,
+          phone: phone,
+          address: address,
+          neighborhood: neighborhood,
+          city: city,
+          number: number,
+          cep: cep,
+        });
+        toast.success("Aluno cadastrado com sucesso");
+      } catch (error) {
+        console.log(error);
+        toast.error("Erro ao cadastrar aluno");
+      }
     }
+  };
+
+  const handleCepChange = (e: any) => {
+    setCep(e.target.value);
   };
 
   return (
@@ -121,12 +128,18 @@ export const RegisterUser = () => {
               name="cep"
               rules={[{ required: true, message: "Digite o cep" }]}
             >
-              <InputDefault
+              {/* <InputDefault
                 label="CEP"
                 placeholder="000000 - 00"
                 maxLength={8}
                 value={cep}
-                onChange={(e: any) => setCep(e.target.value)}
+                // ref={inputRef}
+                // onChange={handleCepChange}
+              /> */}
+              <MaskedInput
+                // placeholder="000000-00"
+                mask={"00000-000"}
+                onChange={handleCepChange}
               />
             </Form.Item>
           </S.ContainerLine>
@@ -136,6 +149,9 @@ export const RegisterUser = () => {
               textButton="Cadastrar"
               onClick={handleSubmit}
             />
+            <BtnAntd type="link" href="/" style={{ marginTop: 10 }}>
+              Voltar
+            </BtnAntd>
           </S.ContainerButton>
         </Form>
       </S.ContainerForm>

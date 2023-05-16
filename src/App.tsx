@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <>
-      <ToastContainer />
+      <ToastContainer pauseOnHover={false} />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />

@@ -2,12 +2,12 @@ import api from './api';
 
 interface FormProps {
   name: string;
-  phone: number;
+  phone: string;
   address: string;
   neighborhood: string;
   city: string;
   number: number;
-  cep: number;
+  cep: string;
 }
 
 export const getUsers = async () => {
