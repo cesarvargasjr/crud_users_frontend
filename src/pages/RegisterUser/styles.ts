@@ -46,6 +46,7 @@ export const ContainerButton = styled.div`
   margin-top: 25px;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
 export const Title = styled.div`

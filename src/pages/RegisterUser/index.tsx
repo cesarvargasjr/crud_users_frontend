@@ -1,6 +1,6 @@
 import { Button } from "../../components/Button";
 import { InputDefault } from "../../components/Input";
-import { Form } from "antd";
+import { Form, Button as BtnAntd } from "antd";
 import { useState } from "react";
 import { registerUser } from "../../services/users";
 import { toast } from "react-toastify";
@@ -8,29 +8,35 @@ import * as S from "./styles";
 
 export const RegisterUser = () => {
   const [name, setName] = useState<string>("");
-  const [phone, setPhone] = useState<any>();
+  const [phone, setPhone] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [neighborhood, setNeighborhood] = useState<string>("");
   const [city, setCity] = useState<string>("");
-  const [number, setNumber] = useState<any>();
-  const [cep, setCep] = useState<any>();
+  const [number, setNumber] = useState<number>(0);
+  const [cep, setCep] = useState<string>("");
 
   const handleSubmit = async () => {
-    try {
-      await registerUser({
-        name: name,
-        phone: phone,
-        address: address,
-        neighborhood: neighborhood,
-        city: neighborhood,
-        number: number,
-        cep: cep,
-      });
-      toast.success("Aluno cadastrado com sucesso");
-    } catch (error) {
-      console.log(error);
-      toast.error("Erro ao cadastrar aluno");
+    if (name !== "") {
+      try {
+        await registerUser({
+          name: name,
+          phone: phone,
+          address: address,
+          neighborhood: neighborhood,
+          city: city,
+          number: number,
+          cep: cep,
+        });
+        toast.success("Aluno cadastrado com sucesso");
+      } catch (error) {
+        console.log(error);
+        toast.error("Erro ao cadastrar aluno");
+      }
     }
+  };
+
+  const handleCepChange = (e: any) => {
+    setCep(e.target.value);
   };
 
   return (
@@ -44,6 +50,7 @@ export const RegisterUser = () => {
               rules={[{ required: true, message: "Digite o nome completo" }]}
             >
               <InputDefault
+                type="string"
                 label="Nome do aluno"
                 placeholder="Nome completo"
                 maxLength={70}
@@ -57,8 +64,8 @@ export const RegisterUser = () => {
               rules={[{ required: true, message: "Digite o telefone" }]}
             >
               <InputDefault
+                type="phone"
                 label="Telefone"
-                placeholder="(00) 00000 - 0000"
                 maxLength={11}
                 value={phone}
                 onChange={(e: any) => setPhone(e.target.value)}
@@ -71,6 +78,7 @@ export const RegisterUser = () => {
               rules={[{ required: true, message: "Digite o endereço" }]}
             >
               <InputDefault
+                type="string"
                 label="Endereço"
                 placeholder="Rua"
                 maxLength={80}
@@ -84,11 +92,12 @@ export const RegisterUser = () => {
               rules={[{ required: true, message: "Digite o número" }]}
             >
               <InputDefault
+                type="number"
                 label="Número"
                 placeholder="0000"
                 maxLength={5}
                 value={number}
-                onChange={(e: any) => setNumber(e.target.value)}
+                onChange={(value: number) => setNumber(value)}
               />
             </Form.Item>
           </S.ContainerLine>
@@ -98,6 +107,7 @@ export const RegisterUser = () => {
               rules={[{ required: true, message: "Digite o número" }]}
             >
               <InputDefault
+                type="string"
                 label="Cidade"
                 placeholder="Nome da cidade"
                 maxLength={30}
@@ -110,6 +120,7 @@ export const RegisterUser = () => {
               rules={[{ required: true, message: "Digite o bairro" }]}
             >
               <InputDefault
+                type="string"
                 label="Bairro"
                 placeholder="Nome do bairro"
                 maxLength={30}
@@ -122,11 +133,11 @@ export const RegisterUser = () => {
               rules={[{ required: true, message: "Digite o cep" }]}
             >
               <InputDefault
+                type="cep"
                 label="CEP"
-                placeholder="000000 - 00"
                 maxLength={8}
                 value={cep}
-                onChange={(e: any) => setCep(e.target.value)}
+                onChange={handleCepChange}
               />
             </Form.Item>
           </S.ContainerLine>
@@ -136,6 +147,9 @@ export const RegisterUser = () => {
               textButton="Cadastrar"
               onClick={handleSubmit}
             />
+            <BtnAntd type="link" href="/" style={{ marginTop: 10 }}>
+              Voltar
+            </BtnAntd>
           </S.ContainerButton>
         </Form>
       </S.ContainerForm>
