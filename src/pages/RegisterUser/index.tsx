@@ -4,6 +4,7 @@ import { Form, Button as BtnAntd } from "antd";
 import { useState } from "react";
 import { registerUser } from "../../services/users";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import * as S from "./styles";
 
 export const RegisterUser = () => {
@@ -12,11 +13,20 @@ export const RegisterUser = () => {
   const [address, setAddress] = useState<string>("");
   const [neighborhood, setNeighborhood] = useState<string>("");
   const [city, setCity] = useState<string>("");
-  const [number, setNumber] = useState<number>(0);
+  const [number, setNumber] = useState<any>();
   const [cep, setCep] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    if (name !== "") {
+    if (
+      name !== "" &&
+      phone !== "" &&
+      address !== "" &&
+      neighborhood !== "" &&
+      city !== "" &&
+      number !== undefined &&
+      cep !== ""
+    ) {
       try {
         await registerUser({
           name: name,
@@ -28,9 +38,10 @@ export const RegisterUser = () => {
           cep: cep,
         });
         toast.success("Aluno cadastrado com sucesso");
+        navigate("/");
       } catch (error) {
         console.log(error);
-        toast.error("Erro ao cadastrar aluno");
+        toast.error("Erro ao cadastrar aluno. Tente novamente!");
       }
     }
   };

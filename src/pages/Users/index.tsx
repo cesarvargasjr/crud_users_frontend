@@ -4,6 +4,8 @@ import { Table, Space, Modal, Button as BtnAntd } from "antd";
 import { deleteUser, getUsers } from "../../services/users";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { timeOut } from "../../utils/timeOut";
 import * as S from "./styles";
 
 interface DataProps {
@@ -22,6 +24,7 @@ export const Users = () => {
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState<any>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const columns: ColumnsType<DataProps> = [
     { title: "Name", dataIndex: "name", key: "name" },
@@ -29,18 +32,28 @@ export const Users = () => {
     {
       title: "Endereço",
       key: "address",
-      render: (text, record) => {
-        const addressCompleted = `Rua ${record.address} - ${record.number}, ${record.neighborhood}, cidade ${record.city}, ${record.cep}`;
+      render: (record) => {
+        const addressCompleted = `Rua ${record.address} - ${record.number}`;
         return <span>{addressCompleted}</span>;
       },
     },
+    { title: "Bairro", dataIndex: "neighborhood", key: "neighborhood" },
+    { title: "Cidade", dataIndex: "city", key: "city" },
+    { title: "Cep", dataIndex: "cep", key: "cep" },
     {
       title: "Ações",
       dataIndex: "",
       key: "x",
       render: (rowData) => (
         <Space size="middle">
-          <EditOutlined style={{ cursor: "pointer" }} />
+          <EditOutlined
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              const id = rowData?.id;
+              navigate(`/editar-aluno/${id}`);
+            }}
+          />
+
           <DeleteOutlined
             style={{ cursor: "pointer" }}
             // eslint-disable-next-line no-sequences
@@ -50,12 +63,6 @@ export const Users = () => {
       ),
     },
   ];
-
-  function sleep(time: number) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-
-  console.log("id =>", id);
 
   const handleData = async () => {
     const response = await getUsers();
@@ -69,7 +76,7 @@ export const Users = () => {
   const handleDeleteUser = async () => {
     try {
       setLoading(true);
-      await sleep(500);
+      await timeOut(500);
       await deleteUser(id);
       toast.success("Cadastrado excluído com sucesso");
     } catch (error) {

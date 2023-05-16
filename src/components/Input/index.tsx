@@ -9,6 +9,7 @@ interface InputProps {
   value?: any;
   width?: number;
   type?: string;
+  defaultValue?: any;
   onChange?: (_: any) => void;
 }
 
@@ -20,6 +21,7 @@ export const InputDefault = ({
   value,
   onChange,
   type,
+  defaultValue,
 }: InputProps) => {
   function getInput() {
     switch (type) {
@@ -31,6 +33,7 @@ export const InputDefault = ({
             width={width}
             value={value}
             onChange={onChange}
+            defaultValue={defaultValue}
           />
         );
       case "number":
@@ -42,12 +45,25 @@ export const InputDefault = ({
             onChange={onChange}
             value={value}
             controls={false}
+            defaultValue={defaultValue}
           />
         );
       case "cep":
-        return <MaskedInput mask={"00000-000"} onChange={onChange} />;
+        return (
+          <MaskedInput
+            mask={"00000-000"}
+            onChange={onChange}
+            defaultValue={defaultValue}
+          />
+        );
       case "phone":
-        return <MaskedInput mask={"(00) 00000-0000"} onChange={onChange} />;
+        return (
+          <MaskedInput
+            mask={"(00) 00000-0000"}
+            onChange={onChange}
+            defaultValue={defaultValue}
+          />
+        );
     }
   }
 
