@@ -157,7 +157,7 @@ export const Users = () => {
       ...getColumnSearchProps("complement"),
       render: (record) => {
         const complementText = `${
-          record.complement === null ? "-" : record.complement
+          record.complement === "" ? "-" : record.complement
         }`;
         return <span>{complementText}</span>;
       },
