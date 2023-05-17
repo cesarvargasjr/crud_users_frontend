@@ -10,8 +10,20 @@ export const ContainerPage = styled.div`
   padding: 0 20px;
 `;
 
+export const ContainerLoading = styled.div`
+  position: absolute;
+  backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  width: 100%;
+  z-index: 99999;
+`;
+
 export const ContainerForm = styled.div`
   display: flex;
+  flex-direction: column;
   border-radius: 8px;
   padding: 50px;
   align-items: center;

@@ -10,30 +10,26 @@ export const ContainerPage = styled.div`
   padding: 0 20px;
 `;
 
+export const ContainerLoading = styled.div`
+  position: absolute;
+  backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  width: 100%;
+  z-index: 99999;
+`;
+
 export const ContainerForm = styled.div`
   display: flex;
+  flex-direction: column;
   border-radius: 8px;
   padding: 50px;
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 2px 2px #0001;
   background-color: ${colors.white};
-
-  .ant-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 250px;
-
-    .ant-form-item {
-      margin: 5px 10px;
-      min-height: 90px;
-  
-      .ant-form-item-explain-error {
-        margin-top: 3px;
-      }
-    }
-  }
 `;
 
 export const ContainerLine = styled.div`
@@ -55,5 +51,5 @@ export const Title = styled.div`
   color: ${colors.blue};
   width: 100%;
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 35px;
 `;

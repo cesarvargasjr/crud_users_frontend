@@ -1,13 +1,18 @@
 import api from './api';
 
-interface FormProps {
-  name: string | undefined;
-  phone: string | undefined;
-  address: string | undefined;
-  neighborhood: string | undefined;
-  city: string | undefined;
-  number: number | undefined;
-  cep: string | undefined;
+export interface FormProps {
+  name?: string;
+  phone?: string;
+  address?: string;
+  neighborhood?: string;
+  city?: string;
+  number?: number;
+  cep?: string;
+  complement?: string;
+}
+
+interface RegisterUserProps {
+  formData: FormProps;
 }
 
 export const getUsers = async () => {
@@ -30,9 +35,9 @@ export const getUser = async (id: number) => {
   }
 };
 
-export const registerUser = async (formData: FormProps) => {
+export const registerUser = async ({ formData }: RegisterUserProps) => {
   try {
-    const { data } = await api.post(`/user`, formData);
+    const { data } = await api.post(`/user`, { ...formData });
     return data;
   } catch (error) {
     console.log(error);
@@ -40,9 +45,9 @@ export const registerUser = async (formData: FormProps) => {
   }
 };
 
-export const updateUser = async (id: number | undefined, formData: FormProps) => {
+export const updateUser = async (id: number | undefined, { formData }: RegisterUserProps) => {
   try {
-    const { data } = await api.put(`/user/${id}`, formData);
+    const { data } = await api.put(`/user/${id}`, { ...formData });
     return data;
   } catch (error) {
     console.log(error);

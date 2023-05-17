@@ -10,6 +10,17 @@ export const ContainerPage = styled.div`
   background-color: ${colors.greyLight};
 `;
 
+export const ContainerLoading = styled.div`
+  position: absolute;
+  backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  width: 100%;
+  z-index: 99999;
+`;
+
 export const ContainerHeader = styled.div`
   display: flex;
   width: 100%;

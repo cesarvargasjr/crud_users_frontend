@@ -17,6 +17,7 @@ interface DataProps {
   city: string;
   number: number;
   cep: number;
+  complement: string;
 }
 
 export const Users = () => {
@@ -27,19 +28,36 @@ export const Users = () => {
   const navigate = useNavigate();
 
   const columns: ColumnsType<DataProps> = [
-    { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Telefone", dataIndex: "phone", key: "phone" },
+    { title: "Name", dataIndex: "name", key: "name", width: 200 },
+    { title: "Telefone", dataIndex: "phone", key: "phone", width: 170 },
     {
       title: "Endereço",
       key: "address",
+      width: 250,
       render: (record) => {
         const addressCompleted = `Rua ${record.address} - ${record.number}`;
         return <span>{addressCompleted}</span>;
       },
     },
-    { title: "Bairro", dataIndex: "neighborhood", key: "neighborhood" },
-    { title: "Cidade", dataIndex: "city", key: "city" },
-    { title: "Cep", dataIndex: "cep", key: "cep" },
+    {
+      title: "Complemento",
+      key: "complement",
+      width: 180,
+      render: (record) => {
+        const complementText = `${
+          record.complement === null ? "-" : record.complement
+        }`;
+        return <span>{complementText}</span>;
+      },
+    },
+    {
+      title: "Bairro",
+      dataIndex: "neighborhood",
+      key: "neighborhood",
+      width: 150,
+    },
+    { title: "Cidade", dataIndex: "city", key: "city", width: 150 },
+    { title: "Cep", dataIndex: "cep", key: "cep", width: 120 },
     {
       title: "Ações",
       dataIndex: "",
@@ -53,7 +71,6 @@ export const Users = () => {
               navigate(`/editar-aluno/${id}`);
             }}
           />
-
           <DeleteOutlined
             style={{ cursor: "pointer" }}
             // eslint-disable-next-line no-sequences

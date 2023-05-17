@@ -1,76 +1,141 @@
-import { InputNumber } from "antd";
-import MaskedInput from "antd-mask-input";
+import { ErrorMessage, Field } from "formik";
+import MaskedInput from "react-text-mask";
+import {
+  cepMask,
+  formatNumber,
+  formatText,
+  phoneNumberMask,
+} from "../../utils/mask";
 import * as S from "./styles";
 
-interface InputProps {
-  label?: string;
+export interface InputProps {
+  type: string;
+  label: string;
   placeholder?: string;
+  nameInput: string;
+  fieldMandatory: boolean;
+  width?: number;
+  data?: string | number;
   maxLength?: number;
   value?: any;
-  width?: number;
-  type?: string;
-  defaultValue?: any;
-  onChange?: (_: any) => void;
+  errors?: any;
+  onChange?: (e: any) => any;
 }
 
-export const InputDefault = ({
+export const Input = ({
+  type,
   label,
   placeholder,
-  maxLength,
-  width,
-  value,
   onChange,
-  type,
-  defaultValue,
+  value,
+  nameInput,
+  data,
+  fieldMandatory,
+  width,
+  maxLength,
 }: InputProps) => {
   function getInput() {
     switch (type) {
       case "string":
         return (
-          <S.ContainerInput
-            placeholder={placeholder}
-            maxLength={maxLength}
-            width={width}
-            value={value}
-            onChange={onChange}
-            defaultValue={defaultValue}
+          <Field
+            name={nameInput}
+            type="text"
+            render={({ field }: any) => (
+              <input
+                {...field}
+                value={value}
+                onChange={onChange}
+                placeholder={placeholder}
+                style={S.styleInput}
+              />
+            )}
+          />
+        );
+      case "text":
+        return (
+          <Field
+            name={nameInput}
+            type="text"
+            render={({ field }: any) => (
+              <input
+                {...field}
+                value={value}
+                onChange={onChange}
+                onKeyDown={formatText}
+                placeholder={placeholder}
+                style={S.styleInput}
+              />
+            )}
           />
         );
       case "number":
         return (
-          <InputNumber
-            style={{ width: 200 }}
-            placeholder={placeholder}
-            maxLength={maxLength}
-            onChange={onChange}
-            value={value}
-            controls={false}
-            defaultValue={defaultValue}
-          />
-        );
-      case "cep":
-        return (
-          <MaskedInput
-            mask={"00000-000"}
-            onChange={onChange}
-            defaultValue={defaultValue}
+          <Field
+            name={nameInput}
+            type="number"
+            render={({ field }: any) => (
+              <input
+                {...field}
+                maxLength={maxLength}
+                onKeyDown={formatNumber}
+                onChange={onChange}
+                value={value}
+                placeholder={placeholder}
+                style={S.styleInput}
+              />
+            )}
           />
         );
       case "phone":
         return (
-          <MaskedInput
-            mask={"(00) 00000-0000"}
-            onChange={onChange}
-            defaultValue={defaultValue}
+          <Field
+            name={nameInput}
+            render={({ field }: any) => (
+              <MaskedInput
+                {...field}
+                type="text"
+                value={value}
+                onChange={onChange}
+                mask={phoneNumberMask}
+                placeholder={placeholder}
+                style={S.styleInput}
+              />
+            )}
+          />
+        );
+      case "cep":
+        return (
+          <Field
+            name={nameInput}
+            render={({ field }: any) => (
+              <MaskedInput
+                {...field}
+                type="text"
+                value={value}
+                onChange={onChange}
+                mask={cepMask}
+                placeholder={placeholder}
+                style={S.styleInput}
+              />
+            )}
           />
         );
     }
   }
 
   return (
-    <>
-      <S.Label>{label}</S.Label>
+    <S.BoxInput width={width}>
+      <S.Label htmlFor={nameInput}>
+        {label}
+        {fieldMandatory && <S.LabelIcon>*</S.LabelIcon>}
+      </S.Label>
       {getInput()}
-    </>
+      {(data === "" || data === undefined) && (
+        <ErrorMessage name={nameInput}>
+          {(msg: string) => <div style={S.styleError}>{msg}</div>}
+        </ErrorMessage>
+      )}
+    </S.BoxInput>
   );
 };
