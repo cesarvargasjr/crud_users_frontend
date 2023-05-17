@@ -1,6 +1,6 @@
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
-import { Button as BtnAntd, Spin } from "antd";
+import { Spin } from "antd";
 import { useState } from "react";
 import { FormProps, registerUser } from "../../services/users";
 import { toast } from "react-toastify";
@@ -24,6 +24,7 @@ export const RegisterUser = () => {
     complement: "",
     neighborhood: undefined,
     city: undefined,
+    state: undefined,
   });
 
   const handleOnSubmit = async (data: any) => {
@@ -34,7 +35,7 @@ export const RegisterUser = () => {
         },
       });
       toast.success("Aluno cadastrado com sucesso");
-      navigate("/");
+      navigate("/alunos");
     } catch (error) {
       console.log(error);
       toast.error("Erro ao cadastrar aluno. Tente novamente!");
@@ -66,11 +67,12 @@ export const RegisterUser = () => {
             address: res.street,
             neighborhood: res.neighborhood,
             city: res.city,
+            state: res.state,
           }));
         })
         .catch((err) => {
           console.error(err);
-          toast.error("Erro ao buscar este CEP. Tente novamente!");
+          toast.error("CEP não encontrado. Tente novamente!");
         })
         .finally(() => setLoadingCep(false));
       return;
@@ -78,6 +80,7 @@ export const RegisterUser = () => {
     setFieldValue("address", "");
     setFieldValue("neighborhood", "");
     setFieldValue("city", "");
+    setFieldValue("state", "");
   };
 
   return (
@@ -168,7 +171,7 @@ export const RegisterUser = () => {
                   nameInput="complement"
                   label="Complemento"
                   placeholder="Complemento"
-                  width={187}
+                  width={130}
                   fieldMandatory={false}
                   onChange={handleChange}
                   value={values.complement}
@@ -178,7 +181,7 @@ export const RegisterUser = () => {
                   nameInput="neighborhood"
                   label="Bairro"
                   placeholder="Digite o bairro"
-                  width={187}
+                  width={140}
                   fieldMandatory={true}
                   onChange={handleChange}
                   value={values.neighborhood}
@@ -188,17 +191,35 @@ export const RegisterUser = () => {
                   nameInput="city"
                   label="Cidade"
                   placeholder="Digite a cidade"
-                  width={187}
+                  width={140}
                   fieldMandatory={true}
                   onChange={handleChange}
                   value={values.city}
                 />
+                <Input
+                  type="text"
+                  nameInput="state"
+                  label="Estado"
+                  placeholder="Digite o estado"
+                  width={110}
+                  fieldMandatory={true}
+                  maxLength={2}
+                  onChange={handleChange}
+                  value={values.state}
+                />
               </S.ContainerLine>
               <S.ContainerButton>
-                <Button htmlType="submit" textButton="Cadastrar" />
-                <BtnAntd type="link" href="/" style={{ marginTop: 10 }}>
-                  Voltar
-                </BtnAntd>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  textButton="Cadastrar"
+                />
+                <div style={{ marginBottom: 15 }} />
+                <Button
+                  type="secondary"
+                  onClick={() => navigate(-1)}
+                  textButton="Voltar"
+                />
               </S.ContainerButton>
             </Form>
           )}

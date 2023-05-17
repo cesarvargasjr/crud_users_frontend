@@ -10,17 +10,6 @@ export const ContainerPage = styled.div`
   background-color: ${colors.greyLight};
 `;
 
-export const ContainerLoading = styled.div`
-  position: absolute;
-  backdrop-filter: blur(1px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100%;
-  width: 100%;
-  z-index: 99999;
-`;
-
 export const ContainerHeader = styled.div`
   display: flex;
   width: 100%;
@@ -32,4 +21,15 @@ export const Title = styled.div`
   font-size: 21px;
   font-weight: 700;
   color: ${colors.blue};
+`;
+
+export const ContainerButton = styled.div`
+  display: flex;
+  width: 100px;
+`;
+
+export const Box = styled.div`
+  display: flex;
+  width: 230px;
+  justify-content: space-between;
 `;

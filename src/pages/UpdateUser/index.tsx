@@ -1,7 +1,7 @@
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { Form, Formik } from "formik";
-import { Button as BtnAntd, Spin } from "antd";
+import { Spin } from "antd";
 import { useEffect, useState } from "react";
 import { FormProps, getUser, updateUser } from "../../services/users";
 import { toast } from "react-toastify";
@@ -77,12 +77,13 @@ export const UpdateUser = () => {
             address: res.street,
             neighborhood: res.neighborhood,
             city: res.city,
+            state: res.state,
           }));
         })
         .catch((err) => {
           console.error(err);
           setFieldError("cep", "CEP inválido");
-          toast.error("Erro ao buscar este CEP. Tente novamente!");
+          toast.error("CEP não encontrado. Tente novamente!");
         })
         .finally(() => setLoading(false));
       return;
@@ -90,6 +91,7 @@ export const UpdateUser = () => {
     setFieldValue("address", "");
     setFieldValue("neighborhood", "");
     setFieldValue("city", "");
+    setFieldValue("state", "");
   };
 
   useEffect(() => {
@@ -158,9 +160,6 @@ export const UpdateUser = () => {
                   fieldMandatory={true}
                   width={165}
                   value={values.cep}
-                  // onChange={(e) =>
-                  //   setValues({ ...values, cep: e.target.value })
-                  // }
                   onChange={(e) => (
                     handleChange(e),
                     getCep(
@@ -203,7 +202,7 @@ export const UpdateUser = () => {
                   nameInput="complement"
                   label="Complemento"
                   placeholder="Complemento"
-                  width={187}
+                  width={130}
                   fieldMandatory={false}
                   value={values.complement}
                   onChange={(e) =>
@@ -215,7 +214,7 @@ export const UpdateUser = () => {
                   nameInput="neighborhood"
                   label="Bairro"
                   placeholder="Digite o bairro"
-                  width={187}
+                  width={140}
                   fieldMandatory={true}
                   value={values.neighborhood}
                   onChange={(e) =>
@@ -227,19 +226,33 @@ export const UpdateUser = () => {
                   nameInput="city"
                   label="Cidade"
                   placeholder="Digite a cidade"
-                  width={187}
+                  width={140}
                   fieldMandatory={true}
                   value={values.city}
                   onChange={(e) =>
                     setValues({ ...values, city: e.target.value })
                   }
                 />
+                <Input
+                  type="text"
+                  nameInput="state"
+                  label="Estado"
+                  placeholder="Digite o estado"
+                  width={110}
+                  fieldMandatory={true}
+                  maxLength={2}
+                  onChange={handleChange}
+                  value={values.state}
+                />
               </S.ContainerLine>
               <S.ContainerButton>
-                <Button htmlType="submit" textButton="Cadastrar" />
-                <BtnAntd type="link" href="/alunos" style={{ marginTop: 10 }}>
-                  Voltar
-                </BtnAntd>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  textButton="Cadastrar"
+                />
+                <div style={{ marginBottom: 15 }} />
+                <Button type="secondary" href="/alunos" textButton="Voltar" />
               </S.ContainerButton>
             </Form>
           )}

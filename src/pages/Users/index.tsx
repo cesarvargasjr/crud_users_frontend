@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import type { ColumnsType } from "antd/es/table";
-import { Table, Space, Modal, Button as BtnAntd } from "antd";
+import { Empty, Table, Space, Modal } from "antd";
 import { deleteUser, getUsers } from "../../services/users";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { timeOut } from "../../utils/timeOut";
 import * as S from "./styles";
+import { Button } from "../../components/Button";
 
 interface DataProps {
   key: React.Key;
@@ -16,6 +17,7 @@ interface DataProps {
   neighborhood: string;
   city: string;
   number: number;
+  state: string;
   cep: number;
   complement: string;
 }
@@ -42,7 +44,7 @@ export const Users = () => {
     {
       title: "Complemento",
       key: "complement",
-      width: 180,
+      width: 140,
       render: (record) => {
         const complementText = `${
           record.complement === null ? "-" : record.complement
@@ -56,7 +58,15 @@ export const Users = () => {
       key: "neighborhood",
       width: 150,
     },
-    { title: "Cidade", dataIndex: "city", key: "city", width: 150 },
+    {
+      title: "Cidade",
+      key: "city",
+      width: 150,
+      render: (record) => {
+        const cityAndState = `${record.city} - ${record.state}`;
+        return <span>{cityAndState}</span>;
+      },
+    },
     { title: "Cep", dataIndex: "cep", key: "cep", width: 120 },
     {
       title: "Ações",
@@ -109,6 +119,20 @@ export const Users = () => {
     setIsModalOpen(false);
   };
 
+  const renderEmpty = () => (
+    <Empty
+      image={Empty.PRESENTED_IMAGE_DEFAULT}
+      description="Nenhum aluno cadastrado."
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        minHeight: 300,
+      }}
+    />
+  );
+
   useEffect(() => {
     handleData();
   }, [loading]);
@@ -128,12 +152,24 @@ export const Users = () => {
         columns={columns}
         dataSource={data}
         pagination={{ pageSize: 5 }}
+        locale={{
+          emptyText: renderEmpty,
+        }}
         title={() => (
           <S.ContainerHeader>
             <S.Title>Alunos cadastrados</S.Title>
-            <BtnAntd type="link" size="large" href="/">
-              Voltar
-            </BtnAntd>
+            <S.Box>
+              <S.ContainerButton>
+                <Button
+                  type="primary"
+                  href="/cadastro-de-aluno"
+                  textButton="Adicionar"
+                />
+              </S.ContainerButton>
+              <S.ContainerButton>
+                <Button type="secondary" href="/" textButton="Voltar" />
+              </S.ContainerButton>
+            </S.Box>
           </S.ContainerHeader>
         )}
       />

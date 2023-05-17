@@ -64,6 +64,7 @@ export const Input = ({
                 onChange={onChange}
                 onKeyDown={formatText}
                 placeholder={placeholder}
+                maxLength={maxLength}
                 style={S.styleInput}
               />
             )}

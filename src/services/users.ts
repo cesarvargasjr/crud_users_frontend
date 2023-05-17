@@ -6,6 +6,7 @@ export interface FormProps {
   address?: string;
   neighborhood?: string;
   city?: string;
+  state?: string;
   number?: number;
   cep?: string;
   complement?: string;
