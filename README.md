@@ -1,70 +1,95 @@
-# Getting Started with Create React App
+## Projeto Full Stack - Repositório FRONT-END
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Objetivo do desenvolvimento:
 
-## Available Scripts
+Aplicação full stack, usando ReactJS no front-end e NodeJS com Express para o back-end. Tendo como objetivo aplicar um CRUD no gerenciamento de cadastros de usuários pensando sempre em proporcionar uma ótima experiência ao usuário, com layout agradável e performance.
 
-In the project directory, you can run:
+##
 
-### `npm start`
+### Funcionalidades desenvolvidas:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Tela principal com um menu de opções;
+- Cadastro de usuários com as devidas validações de inputs e formulário;
+- Edição de cadastro;
+- Exclusão de cadastro;
+- Listagem dos usuários cadastrados;
+- Filtro de busca na tabela de listagem de usuários conforme a necessidade de pesquisa;
+- Consumo da API de cep para preenchimento automático dos inputs de endereço.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+##
 
-### `npm test`
+### Tecnologias utilizadas no desenvolvimento FRONT-END:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- ReactJS
+- Typescript
+- JavaScript
+- HTML
+- CSS (Styled Components)
+- Axios
+- Biblioteca Ant Design
 
-### `npm run build`
+##
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Para executar o repositório FRONT-END:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Clonar o repositório
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+$ git clone https://github.com/cesarvargasjr/crud_users_frontend.git
+```
 
-### `npm run eject`
+Acessar a pasta do projeto via terminal
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+$ cd crud_users_frontend
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Instale as dependências
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+$ npm i
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Execute a aplicação
 
-## Learn More
+```bash
+$ npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+##
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Para executar o repositório BACK-END:
 
-### Code Splitting
+Link do repositório: ([Acessar repositório](https://github.com/cesarvargasjr/crud_users_backend))
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Clonar o repositório
 
-### Analyzing the Bundle Size
+```bash
+$ git clone
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Acessar a pasta do projeto via terminal
 
-### Making a Progressive Web App
+```bash
+$ cd crud_users_backend
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Instale as dependências
 
-### Advanced Configuration
+```bash
+$ npm i
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Execute a aplicação
 
-### Deployment
+```bash
+$ npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+##
 
-### `npm run build` fails to minify
+### Screenshot da aplicação:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<p align="center">
+
+</p>
