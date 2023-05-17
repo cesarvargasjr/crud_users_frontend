@@ -1,3 +1,5 @@
+/* eslint-disable no-sequences */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { Spin } from "antd";
