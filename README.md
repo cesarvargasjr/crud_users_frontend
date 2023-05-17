@@ -101,5 +101,9 @@ $ npm start
 <img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/db6b9680-badf-4f24-b74e-8bbe5b0670d4">
 
 <img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/6c9eb35e-f9b6-475d-b320-efd60c665e71">
+
+<img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/006a5707-eb34-488b-8af8-62f5827082c8">
+
+<img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/3e7aa9d8-f7cb-4483-94b2-abadfc533d45">  
   
 </p>
