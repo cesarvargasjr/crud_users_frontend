@@ -1,21 +1,23 @@
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
-import { Spin } from "antd";
-import { useState } from "react";
-import { FormProps, registerUser } from "../../services/users";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { createUserSchema } from "../../utils/schemaUser";
 import { Form, Formik } from "formik";
+import { Spin } from "antd";
+import { useEffect, useState } from "react";
+import { FormProps, getUser, updateUser } from "../../services/users";
+import { toast } from "react-toastify";
 import { timeOut } from "../../utils/timeOut";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { createUserSchema } from "../../utils/schemaUser";
 import cep from "cep-promise";
 import * as S from "./styles";
 
-export const RegisterUser = () => {
+export const UpdateUser = () => {
+  const { id }: any = useParams();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [disableAddressFields, setDisableAddressFields] = useState(true);
-  const [loadingCep, setLoadingCep] = useState(false);
-  const [data] = useState<FormProps>({
+  const [data, setData] = useState<FormProps>({
     name: undefined,
     phone: undefined,
     address: undefined,
@@ -24,26 +26,34 @@ export const RegisterUser = () => {
     complement: "",
     neighborhood: undefined,
     city: undefined,
-    state: undefined,
   });
+
+  const handleUser = async () => {
+    setLoading(true);
+    await timeOut(400);
+    const response = await getUser(id);
+    setData(response);
+    setLoading(false);
+  };
 
   const handleOnSubmit = async (data: any) => {
     try {
-      await registerUser({
+      await updateUser(id, {
         formData: {
           ...data,
         },
       });
-      toast.success("Aluno cadastrado com sucesso");
+      toast.success("Cadastrado atualizado com sucesso");
       navigate("/alunos");
     } catch (error) {
       console.log(error);
-      toast.error("Erro ao cadastrar aluno. Tente novamente!");
+      toast.error("Erro ao editar cadastro do aluno");
     }
   };
 
   const getCep = async (
     value: string,
+    setFieldError: (field: string, message: string | undefined) => void,
     setValues: (
       values: React.SetStateAction<FormProps>,
       shouldValidate?: boolean | undefined
@@ -56,8 +66,8 @@ export const RegisterUser = () => {
   ) => {
     value = value.replace(/\D/g, "");
     setDisableAddressFields(false);
-    if (value.length === 8 && !loadingCep) {
-      setLoadingCep(true);
+    if (value.length === 8 && !loading) {
+      setLoading(true);
       await timeOut(500);
 
       cep(value)
@@ -72,9 +82,10 @@ export const RegisterUser = () => {
         })
         .catch((err) => {
           console.error(err);
+          setFieldError("cep", "CEP inválido");
           toast.error("CEP não encontrado. Tente novamente!");
         })
-        .finally(() => setLoadingCep(false));
+        .finally(() => setLoading(false));
       return;
     }
     setFieldValue("address", "");
@@ -83,26 +94,33 @@ export const RegisterUser = () => {
     setFieldValue("state", "");
   };
 
+  useEffect(() => {
+    handleUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <S.ContainerPage>
-      {loadingCep && (
+      {loading && (
         <S.ContainerLoading>
           <Spin tip="Loading" size="large" />
         </S.ContainerLoading>
       )}
       <S.ContainerForm>
-        <S.Title>Cadastro de aluno</S.Title>
+        <S.Title>Edição de cadastro</S.Title>
         <Formik
           validationSchema={createUserSchema}
           initialValues={data}
           onSubmit={handleOnSubmit}
+          enableReinitialize
         >
           {({
             handleSubmit,
-            handleChange,
             values,
             errors,
             setValues,
+            handleChange,
+            setFieldError,
             setFieldValue,
           }) => (
             <Form onSubmit={handleSubmit} className="form-register-user">
@@ -114,9 +132,11 @@ export const RegisterUser = () => {
                   placeholder="Digite o nome completo"
                   width={400}
                   fieldMandatory={true}
-                  onChange={handleChange}
                   value={values.name}
                   errors={errors}
+                  onChange={(e) =>
+                    setValues({ ...values, name: e.target.value })
+                  }
                 />
                 <Input
                   type="phone"
@@ -125,8 +145,10 @@ export const RegisterUser = () => {
                   placeholder="(00) 0 0000-0000"
                   fieldMandatory={true}
                   width={200}
-                  onChange={handleChange}
                   value={values.phone}
+                  onChange={(e) =>
+                    setValues({ ...values, phone: e.target.value })
+                  }
                 />
               </S.ContainerLine>
               <S.ContainerLine>
@@ -140,7 +162,12 @@ export const RegisterUser = () => {
                   value={values.cep}
                   onChange={(e) => (
                     handleChange(e),
-                    getCep(e.target.value, setValues, setFieldValue)
+                    getCep(
+                      e.target.value,
+                      setFieldError,
+                      setValues,
+                      setFieldValue
+                    )
                   )}
                 />
                 <Input
@@ -150,8 +177,10 @@ export const RegisterUser = () => {
                   placeholder="Digite o endereço"
                   fieldMandatory={true}
                   width={240}
-                  onChange={handleChange}
                   value={values.address}
+                  onChange={(e) =>
+                    setValues({ ...values, address: e.target.value })
+                  }
                 />
                 <Input
                   type="number"
@@ -161,8 +190,10 @@ export const RegisterUser = () => {
                   maxLength={5}
                   fieldMandatory={true}
                   width={155}
-                  onChange={handleChange}
                   value={values.number}
+                  onChange={(e) =>
+                    setValues({ ...values, number: e.target.value })
+                  }
                 />
               </S.ContainerLine>
               <S.ContainerLine>
@@ -173,8 +204,10 @@ export const RegisterUser = () => {
                   placeholder="Complemento"
                   width={130}
                   fieldMandatory={false}
-                  onChange={handleChange}
                   value={values.complement}
+                  onChange={(e) =>
+                    setValues({ ...values, complement: e.target.value })
+                  }
                 />
                 <Input
                   type="text"
@@ -183,8 +216,10 @@ export const RegisterUser = () => {
                   placeholder="Digite o bairro"
                   width={140}
                   fieldMandatory={true}
-                  onChange={handleChange}
                   value={values.neighborhood}
+                  onChange={(e) =>
+                    setValues({ ...values, neighborhood: e.target.value })
+                  }
                 />
                 <Input
                   type="text"
@@ -193,8 +228,10 @@ export const RegisterUser = () => {
                   placeholder="Digite a cidade"
                   width={140}
                   fieldMandatory={true}
-                  onChange={handleChange}
                   value={values.city}
+                  onChange={(e) =>
+                    setValues({ ...values, city: e.target.value })
+                  }
                 />
                 <Input
                   type="text"
@@ -215,11 +252,7 @@ export const RegisterUser = () => {
                   textButton="Cadastrar"
                 />
                 <div style={{ marginBottom: 15 }} />
-                <Button
-                  type="secondary"
-                  onClick={() => navigate(-1)}
-                  textButton="Voltar"
-                />
+                <Button type="secondary" href="/alunos" textButton="Voltar" />
               </S.ContainerButton>
             </Form>
           )}

@@ -30,6 +30,22 @@ export const ContainerForm = styled.div`
   justify-content: center;
   box-shadow: 0 0 2px 2px #0001;
   background-color: ${colors.white};
+
+  .ant-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 250px;
+
+    .ant-form-item {
+      margin: 5px 10px;
+      min-height: 90px;
+  
+      .ant-form-item-explain-error {
+        margin-top: 3px;
+      }
+    }
+  }
 `;
 
 export const ContainerLine = styled.div`
@@ -51,5 +67,5 @@ export const Title = styled.div`
   color: ${colors.blue};
   width: 100%;
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 25px;
 `;

@@ -13,3 +13,12 @@ export const ContainerMenu = styled.div`
   box-shadow: 0 0 2px 2px #0001;
   background-color: ${colors.white};
 `;
+
+export const Title = styled.div`
+  font-size: 21px;
+  font-weight: 700;
+  color: ${colors.blue};
+  width: 60%;
+  text-align: center;
+  margin-bottom: 35px;
+`;

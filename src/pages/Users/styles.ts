@@ -22,3 +22,14 @@ export const Title = styled.div`
   font-weight: 700;
   color: ${colors.blue};
 `;
+
+export const ContainerButton = styled.div`
+  display: flex;
+  width: 100px;
+`;
+
+export const Box = styled.div`
+  display: flex;
+  width: 230px;
+  justify-content: space-between;
+`;

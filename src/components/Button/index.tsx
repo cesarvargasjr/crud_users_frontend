@@ -5,6 +5,7 @@ interface ButtonProps {
   onClick?: any;
   href?: string;
   htmlType?: any;
+  type: string;
 }
 
 export const Button = ({
@@ -12,10 +13,24 @@ export const Button = ({
   onClick,
   href,
   htmlType,
+  type,
 }: ButtonProps) => {
-  return (
-    <S.ContainerButton onClick={onClick} href={href} htmlType={htmlType}>
-      {textButton}
-    </S.ContainerButton>
-  );
+  function getButton() {
+    switch (type) {
+      case "primary":
+        return (
+          <S.ButtonPrimary onClick={onClick} href={href} htmlType={htmlType}>
+            {textButton}
+          </S.ButtonPrimary>
+        );
+      case "secondary":
+        return (
+          <S.ButtonSecondary onClick={onClick} href={href} htmlType={htmlType}>
+            {textButton}
+          </S.ButtonSecondary>
+        );
+    }
+  }
+
+  return <>{getButton()}</>;
 };
