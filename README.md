@@ -65,7 +65,7 @@ Link do repositório: ([Acessar repositório](https://github.com/cesarvargasjr/c
 Clonar o repositório
 
 ```bash
-$ git clone
+$ git clone https://github.com/cesarvargasjr/crud_users_backend.git
 ```
 
 Acessar a pasta do projeto via terminal
