@@ -263,7 +263,7 @@ export const Users = () => {
   return (
     <S.ContainerPage>
       <Modal
-        title={`Deseja realmente excluir o aluno ${name}?`}
+        title={`Deseja realmente excluir o aluno(a) ${name}?`}
         open={isModalOpen}
         onOk={handleDeleteUser}
         onCancel={handleCancel}
