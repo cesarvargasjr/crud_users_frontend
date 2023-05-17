@@ -1,13 +1,29 @@
-import React, { useEffect, useState } from "react";
-import type { ColumnsType } from "antd/es/table";
-import { Empty, Table, Space, Modal } from "antd";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-sequences */
+import React, { useEffect, useRef, useState } from "react";
 import { deleteUser, getUsers } from "../../services/users";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { timeOut } from "../../utils/timeOut";
-import * as S from "./styles";
 import { Button } from "../../components/Button";
+import type { ColumnsType, ColumnType } from "antd/es/table";
+import type { FilterConfirmProps } from "antd/es/table/interface";
+import {
+  Empty,
+  Table,
+  Space,
+  Modal,
+  Input,
+  Button as BtnAntd,
+  InputRef,
+} from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import * as S from "./styles";
 
 interface DataProps {
   key: React.Key;
@@ -22,22 +38,114 @@ interface DataProps {
   complement: string;
 }
 
+type DataIndex = keyof DataProps;
+
 export const Users = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState<any>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef<InputRef>(null);
   const navigate = useNavigate();
 
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: (param?: FilterConfirmProps) => void,
+    dataIndex: DataIndex
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (
+    dataIndex: DataIndex
+  ): ColumnType<DataProps> => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <Input
+          ref={searchInput}
+          placeholder={`Busque aqui...`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            handleSearch(selectedKeys as string[], confirm, dataIndex)
+          }
+          style={{ marginBottom: 8, display: "block" }}
+        />
+        <Space style={{ display: "flex", justifyContent: "center" }}>
+          <BtnAntd
+            type="primary"
+            onClick={() =>
+              handleSearch(selectedKeys as string[], confirm, dataIndex)
+            }
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 94 }}
+          >
+            Buscar
+          </BtnAntd>
+          <BtnAntd
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 94 }}
+          >
+            Limpar
+          </BtnAntd>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes((value as string).toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+  });
+
   const columns: ColumnsType<DataProps> = [
-    { title: "Name", dataIndex: "name", key: "name", width: 200 },
-    { title: "Telefone", dataIndex: "phone", key: "phone", width: 170 },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      width: 200,
+      ...getColumnSearchProps("name"),
+    },
+    {
+      title: "Telefone",
+      dataIndex: "phone",
+      key: "phone",
+      width: 170,
+      ...getColumnSearchProps("phone"),
+    },
     {
       title: "Endereço",
       key: "address",
       width: 250,
+      ...getColumnSearchProps("address"),
       render: (record) => {
-        const addressCompleted = `Rua ${record.address} - ${record.number}`;
+        const addressCompleted = `${record.address} - ${record.number}`;
         return <span>{addressCompleted}</span>;
       },
     },
@@ -45,6 +153,7 @@ export const Users = () => {
       title: "Complemento",
       key: "complement",
       width: 140,
+      ...getColumnSearchProps("complement"),
       render: (record) => {
         const complementText = `${
           record.complement === null ? "-" : record.complement
@@ -57,35 +166,46 @@ export const Users = () => {
       dataIndex: "neighborhood",
       key: "neighborhood",
       width: 150,
+      ...getColumnSearchProps("neighborhood"),
     },
     {
       title: "Cidade",
       key: "city",
       width: 150,
+      ...getColumnSearchProps("city"),
       render: (record) => {
         const cityAndState = `${record.city} - ${record.state}`;
         return <span>{cityAndState}</span>;
       },
     },
-    { title: "Cep", dataIndex: "cep", key: "cep", width: 120 },
+    {
+      title: "Cep",
+      dataIndex: "cep",
+      key: "cep",
+      width: 120,
+      ...getColumnSearchProps("cep"),
+    },
     {
       title: "Ações",
       dataIndex: "",
       key: "x",
       render: (rowData) => (
         <Space size="middle">
-          <EditOutlined
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              const id = rowData?.id;
-              navigate(`/editar-aluno/${id}`);
-            }}
-          />
-          <DeleteOutlined
-            style={{ cursor: "pointer" }}
-            // eslint-disable-next-line no-sequences
-            onClick={() => (showModal(), setId(rowData?.id))}
-          />
+          <a>
+            <EditOutlined
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                const id = rowData?.id;
+                navigate(`/editar-aluno/${id}`);
+              }}
+            />
+          </a>
+          <a>
+            <DeleteOutlined
+              style={{ cursor: "pointer" }}
+              onClick={() => (showModal(), setId(rowData?.id))}
+            />
+          </a>
         </Space>
       ),
     },
@@ -122,7 +242,7 @@ export const Users = () => {
   const renderEmpty = () => (
     <Empty
       image={Empty.PRESENTED_IMAGE_DEFAULT}
-      description="Nenhum aluno cadastrado."
+      description="Nenhum aluno encontrado."
       style={{
         display: "flex",
         alignItems: "center",
@@ -173,6 +293,7 @@ export const Users = () => {
           </S.ContainerHeader>
         )}
       />
+      {/* </div> */}
     </S.ContainerPage>
   );
 };

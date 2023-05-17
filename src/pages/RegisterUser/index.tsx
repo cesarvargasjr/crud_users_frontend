@@ -14,7 +14,7 @@ import * as S from "./styles";
 export const RegisterUser = () => {
   const navigate = useNavigate();
   const [disableAddressFields, setDisableAddressFields] = useState(true);
-  const [loadingCep, setLoadingCep] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [data] = useState<FormProps>({
     name: undefined,
     phone: undefined,
@@ -29,6 +29,8 @@ export const RegisterUser = () => {
 
   const handleOnSubmit = async (data: any) => {
     try {
+      setLoading(true);
+      await timeOut(500);
       await registerUser({
         formData: {
           ...data,
@@ -40,6 +42,7 @@ export const RegisterUser = () => {
       console.log(error);
       toast.error("Erro ao cadastrar aluno. Tente novamente!");
     }
+    setLoading(false);
   };
 
   const getCep = async (
@@ -56,8 +59,8 @@ export const RegisterUser = () => {
   ) => {
     value = value.replace(/\D/g, "");
     setDisableAddressFields(false);
-    if (value.length === 8 && !loadingCep) {
-      setLoadingCep(true);
+    if (value.length === 8 && !loading) {
+      setLoading(true);
       await timeOut(500);
 
       cep(value)
@@ -74,7 +77,7 @@ export const RegisterUser = () => {
           console.error(err);
           toast.error("CEP não encontrado. Tente novamente!");
         })
-        .finally(() => setLoadingCep(false));
+        .finally(() => setLoading(false));
       return;
     }
     setFieldValue("address", "");
@@ -85,7 +88,7 @@ export const RegisterUser = () => {
 
   return (
     <S.ContainerPage>
-      {loadingCep && (
+      {loading && (
         <S.ContainerLoading>
           <Spin tip="Loading" size="large" />
         </S.ContainerLoading>
