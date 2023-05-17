@@ -92,4 +92,16 @@ $ npm start
 
 <p align="center">
 
+<img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/36b528be-2894-4558-8765-9892d877cfbe">
+  
+<img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/46c87ee5-a051-4b0e-8567-bb0e4ece8a1d">
+
+<img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/eb99dd53-80fa-4b94-b9b7-f4032f7a402d">
+
+<img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/db6b9680-badf-4f24-b74e-8bbe5b0670d4">
+
+<img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/6488ecfd-3803-44fa-b6b8-bb0da5c8b6dd">
+  
+<img width="1440" alt="image" src="https://github.com/cesarvargasjr/crud_users_frontend/assets/72532360/8c781f6b-4656-4d33-b99f-37978f8f0aba">  
+  
 </p>
