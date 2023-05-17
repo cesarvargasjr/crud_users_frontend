@@ -47,6 +47,7 @@ export const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [name, setName] = useState("");
   const searchInput = useRef<InputRef>(null);
   const navigate = useNavigate();
 
@@ -203,7 +204,9 @@ export const Users = () => {
           <a>
             <DeleteOutlined
               style={{ cursor: "pointer" }}
-              onClick={() => (showModal(), setId(rowData?.id))}
+              onClick={() => (
+                showModal(), setId(rowData?.id), setName(rowData?.name)
+              )}
             />
           </a>
         </Space>
@@ -260,7 +263,7 @@ export const Users = () => {
   return (
     <S.ContainerPage>
       <Modal
-        title="Deseja realmente excluir este aluno?"
+        title={`Deseja realmente excluir o aluno ${name}?`}
         open={isModalOpen}
         onOk={handleDeleteUser}
         onCancel={handleCancel}
@@ -293,7 +296,6 @@ export const Users = () => {
           </S.ContainerHeader>
         )}
       />
-      {/* </div> */}
     </S.ContainerPage>
   );
 };
