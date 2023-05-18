@@ -35,25 +35,25 @@ Aplicação full stack, usando ReactJS no front-end e NodeJS com Express para o 
 Clonar o repositório
 
 ```bash
-$ git clone https://github.com/cesarvargasjr/crud_users_frontend.git
+git clone https://github.com/cesarvargasjr/crud_users_frontend.git
 ```
 
 Acessar a pasta do projeto via terminal
 
 ```bash
-$ cd crud_users_frontend
+cd crud_users_frontend
 ```
 
 Instale as dependências
 
 ```bash
-$ npm i
+npm i
 ```
 
 Execute a aplicação
 
 ```bash
-$ npm start
+npm start
 ```
 
 ##
@@ -65,25 +65,25 @@ Link do repositório: ([Acessar repositório](https://github.com/cesarvargasjr/c
 Clonar o repositório
 
 ```bash
-$ git clone https://github.com/cesarvargasjr/crud_users_backend.git
+git clone https://github.com/cesarvargasjr/crud_users_backend.git
 ```
 
 Acessar a pasta do projeto via terminal
 
 ```bash
-$ cd crud_users_backend
+cd crud_users_backend
 ```
 
 Instale as dependências
 
 ```bash
-$ npm i
+npm i
 ```
 
 Execute a aplicação
 
 ```bash
-$ npm start
+npm start
 ```
 
 ##
