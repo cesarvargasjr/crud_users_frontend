@@ -40,6 +40,8 @@ export const UpdateUser = () => {
 
   const handleOnSubmit = async (data: any) => {
     try {
+      setLoading(true);
+      await timeOut(400);
       await updateUser(id, {
         formData: {
           ...data,
@@ -51,6 +53,7 @@ export const UpdateUser = () => {
       console.log(error);
       toast.error("Erro ao editar cadastro do aluno");
     }
+    setLoading(false);
   };
 
   const getCep = async (
