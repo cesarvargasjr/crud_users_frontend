@@ -1,4 +1,4 @@
-## Projeto Full Stack - Repositório FRONT-END
+## Projeto Full Stack - Repositório <strong>FRONT-END</strong>
 
 ### Objetivo do desenvolvimento:
 
